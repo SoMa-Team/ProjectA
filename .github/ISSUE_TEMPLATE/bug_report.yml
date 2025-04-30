@@ -8,7 +8,7 @@ body:
     attributes:
       label: 버그 설명
       description: 어떤 문제가 발생했는지 정확하게 써주세요.
-      placeholder: 예: 캐릭터가 벽을 뚫고 지나감
+      placeholder: "예: 캐릭터가 벽을 뚫고 지나감"
     validations:
       required: true
 
