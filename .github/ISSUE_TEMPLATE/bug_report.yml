@@ -1,0 +1,38 @@
+name: 버그 리포트
+description: 게임에서 발견한 문제를 제보합니다
+title: "fix: [버그 요약]"
+labels: [bug, needs triage]
+body:
+  - type: textarea
+    id: bug
+    attributes:
+      label: 버그 설명
+      description: 어떤 문제가 발생했는지 정확하게 써주세요.
+      placeholder: 예: 캐릭터가 벽을 뚫고 지나감
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 재현 방법
+      description: 문제를 어떻게 재현할 수 있는지 단계별로 써주세요.
+      placeholder: "1. 스테이지 시작\n2. 벽 근처로 이동\n3. 대시 입력\n4. 뚫림"
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 기대 동작
+      description: 본래 기대한 동작은 무엇인가요?
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 플랫폼/환경
+      options:
+        - Windows
+        - macOS
+        - Android
+        - iOS
+        - WebGL
+        - 기타
