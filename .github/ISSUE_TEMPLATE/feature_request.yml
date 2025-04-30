@@ -1,0 +1,29 @@
+name: 기능 추가 요청
+description: 새로운 기능이나 시스템 제안
+title: "feat: [기능 요약]"
+labels: [feat, needs triage]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 기능 설명
+      description: 어떤 기능을 추가하고 싶은지 구체적으로 작성해주세요.
+      placeholder: 예: 플레이어 대시 기능 추가
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 예상 구현 방법
+      description: 예상하는 구현 방법이나 참고할 내용이 있다면 작성해주세요.
+      placeholder: 예: Rigidbody2D의 Velocity를 사용해 구현할 예정
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 우선순위
+      options:
+        - 🟥 높음
+        - 🟨 보통
+        - 🟩 낮음
