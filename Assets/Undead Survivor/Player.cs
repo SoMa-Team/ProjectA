@@ -6,10 +6,11 @@ public class Player : MonoBehaviour
     public float speed;
 
     Rigidbody2D rigid;
-
+    SpriteRenderer spriter;
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        spriter = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -23,5 +24,12 @@ public class Player : MonoBehaviour
     {
         Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
+    }
+    private void LateUpdate()
+    {
+        if (inputVec.x != 0)
+        {
+            spriter.flipX = inputVec.x < 0;
+        }
     }
 }
