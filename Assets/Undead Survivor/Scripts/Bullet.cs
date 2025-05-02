@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 
     int leftPenetration;
     float speed;
+    float range;
+    Vector2 startPos;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -15,9 +17,22 @@ public class Bullet : MonoBehaviour
     {
         leftPenetration = StatManager.Instance.attakStats.projectileCount;
         speed = StatManager.Instance.attakStats.projectileSpeed;
+        range = StatManager.Instance.attakStats.attackRange;
+
+        startPos = rigid.position;
 
         rigid.linearVelocity = dir.normalized * speed;
     }
+
+    private void FixedUpdate()
+    {
+        if (Vector2.Distance(startPos, rigid.position) > range)
+        {
+            rigid.linearVelocity = Vector2.zero;
+            gameObject.SetActive(false);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
