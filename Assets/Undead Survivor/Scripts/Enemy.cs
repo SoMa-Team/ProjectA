@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     public Rigidbody2D target;
 
-    bool isLive;
+    bool isLive = true;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
