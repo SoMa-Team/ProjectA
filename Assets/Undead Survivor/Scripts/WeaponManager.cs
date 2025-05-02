@@ -30,6 +30,7 @@ public class WeaponManager : MonoBehaviour
 
         GameObject bulletObj = GameManager.instance.poolManager.Get(prefabId);
         bulletObj.transform.position = transform.position;
+        bulletObj.transform.up = fireDir.normalized;
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.Init(fireDir);
