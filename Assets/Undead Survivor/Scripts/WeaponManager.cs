@@ -5,7 +5,13 @@ public class WeaponManager : MonoBehaviour
     public int prefabId;
 
     float timer;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Camera mainCamera;
+
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -17,7 +23,15 @@ public class WeaponManager : MonoBehaviour
     }
     void Fire()
     {
-        Transform bullet  = GameManager.instance.poolManager.Get(prefabId).transform;
-        bullet.position = transform.position; 
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0f;
+
+        Vector3 fireDir = mouseWorldPos - transform.position;
+
+        GameObject bulletObj = GameManager.instance.poolManager.Get(prefabId);
+        bulletObj.transform.position = transform.position;
+
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        bullet.Init(fireDir);
     }
 }

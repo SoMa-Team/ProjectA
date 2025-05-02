@@ -2,15 +2,32 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    Rigidbody2D rigid;
+
+    int leftPenetration;
+    float speed;
+    private void Awake()
     {
-        
+        rigid = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init(Vector2 dir)
     {
-        
+        leftPenetration = StatManager.Instance.attakStats.projectileCount;
+        speed = StatManager.Instance.attakStats.projectileSpeed;
+
+        rigid.linearVelocity = dir.normalized * speed;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(!collision.CompareTag("Enemy")) return;
+
+        leftPenetration--;
+        if(leftPenetration == 0)
+        {
+            rigid.linearVelocity = Vector2.zero;
+            gameObject.SetActive(false);
+        }
     }
 }
