@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     public float speed;
     public float healthPoint;
+    public float defense;
     public Rigidbody2D target;
 
     bool isLive = true;
@@ -43,5 +44,35 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+        {
+            return;
+        }
+        TakeDamage(StatManager.Instance.attakStats.attackDamage, StatManager.Instance.attakStats.armorPenetration);
+    }
+
+    private void TakeDamage(float attackDamage, float armorPenetration)
+    {
+        float effectiveDefense = Mathf.Max(0, defense * (100 - armorPenetration) / 100);
+        float damage = attackDamage * 100 / (100 + effectiveDefense);
+        healthPoint -= damage;
+
+        if(healthPoint > 0)
+        {
+
+        }
+        else
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        gameObject.SetActive(false);
     }
 }
