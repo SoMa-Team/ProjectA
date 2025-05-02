@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float healthPoint;
     public Rigidbody2D target;
 
     bool isLive = true;
