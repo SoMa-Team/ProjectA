@@ -21,11 +21,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
             case "Ground":
                 if (diffX > diffY)
                 {
-                    transform.Translate(Vector3.right * dirX * 40);
+                    transform.Translate(Vector3.right * dirX * MapConfig.instance.mapXSize * 2);
                 }
                 else if (diffX < diffY)
                 {
-                    transform.Translate(Vector3.up * dirY * 40);
+                    transform.Translate(Vector3.up * dirY * MapConfig.instance.mapYSize * 2);
                 }
                     break;
             case "Enemy":
