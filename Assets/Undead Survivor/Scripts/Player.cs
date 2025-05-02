@@ -3,7 +3,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
-    public float speed;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
@@ -24,7 +23,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     { 
-        Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * StatManager.Instance.UtilityStats.moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 
