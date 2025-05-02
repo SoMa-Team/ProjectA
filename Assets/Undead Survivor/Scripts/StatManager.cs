@@ -8,6 +8,7 @@ public class AttackStats
     public float attackSpeed;
     public float attackRange;
 
+    public float projectileSpeed;
     public int projectileCount;
     public int projectilePierce;
 
