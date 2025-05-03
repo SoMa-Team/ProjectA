@@ -59,8 +59,8 @@ public class StatManager : MonoBehaviour
     public AttackStats attakStats;
     public DefenseStats defenseStats;
     public VitalStats vitalStats;
-    public UtilityStats UtilityStats;
-    public static StatManager Instance;
+    public UtilityStats utilityStats;
+    public static StatManager instance;
 
     private void Awake()
     {

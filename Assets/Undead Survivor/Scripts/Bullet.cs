@@ -15,9 +15,9 @@ public class Bullet : MonoBehaviour
 
     public void Init(Vector2 dir)
     {
-        leftPenetration = StatManager.Instance.attakStats.projectileCount;
-        speed = StatManager.Instance.attakStats.projectileSpeed;
-        range = StatManager.Instance.attakStats.attackRange;
+        leftPenetration = StatManager.instance.attakStats.projectileCount;
+        speed = StatManager.instance.attakStats.projectileSpeed;
+        range = StatManager.instance.attakStats.attackRange;
 
         startPos = rigid.position;
 

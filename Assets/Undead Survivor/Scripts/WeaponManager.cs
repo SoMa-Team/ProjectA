@@ -15,7 +15,7 @@ public class WeaponManager : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        if(timer > 1 / StatManager.Instance.attakStats.attackSpeed)
+        if(timer > 1 / StatManager.instance.attakStats.attackSpeed)
         {
             timer = 0f;
             Fire();
