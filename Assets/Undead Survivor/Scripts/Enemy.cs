@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -6,16 +7,22 @@ public class Enemy : MonoBehaviour
     public float healthPoint;
     public float defense;
     public Rigidbody2D target;
+    public RuntimeAnimatorController[] controllers;
 
     bool isLive = true;
 
     Rigidbody2D rigid;
     SpriteRenderer spriter;
-
+    Animator animator;
+    WaitForFixedUpdate wait;
+    
+    public float knockbackSize = 3;
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        wait = new WaitForFixedUpdate();
     }
 
     private void FixedUpdate()
@@ -60,15 +67,24 @@ public class Enemy : MonoBehaviour
         float effectiveDefense = Mathf.Max(0, defense * (100 - armorPenetration) / 100);
         float damage = attackDamage * 100 / (100 + effectiveDefense);
         healthPoint -= damage;
+        StartCoroutine(KnockBack());
 
         if(healthPoint > 0)
         {
-
+            animator.SetTrigger("Hit");
         }
         else
         {
             Dead();
         }
+    }
+
+    IEnumerator KnockBack()
+    {
+        yield return wait;
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 dirVec = transform.position - playerPos;
+        rigid.AddForce(dirVec.normalized * knockbackSize * 3, ForceMode2D.Impulse);
     }
 
     void Dead()
