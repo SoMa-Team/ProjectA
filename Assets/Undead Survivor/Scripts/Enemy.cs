@@ -4,7 +4,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
-    public float healthPoint;
+    public float maxHealth;
+    float healthPoint;
     public float defense;
     public Rigidbody2D target;
     public RuntimeAnimatorController[] controllers;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     bool isLive = true;
 
     Rigidbody2D rigid;
+    Collider2D coll;
     SpriteRenderer spriter;
     Animator animator;
     WaitForFixedUpdate wait;
@@ -20,9 +22,11 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         wait = new WaitForFixedUpdate();
+        healthPoint = maxHealth;
     }
 
     private void FixedUpdate()
@@ -51,6 +55,12 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        coll.enabled = true;
+        rigid.simulated = true;
+        spriter.sortingOrder = 2;
+        animator.SetBool("Dead", false);
+        healthPoint = maxHealth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,7 +85,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Dead();
+            isLive = false;
+            coll.enabled = false;
+            rigid.simulated = false;
+            spriter.sortingOrder = 1;
+            animator.SetBool("Dead", true);
         }
     }
 
