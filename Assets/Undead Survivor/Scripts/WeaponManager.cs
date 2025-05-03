@@ -33,6 +33,6 @@ public class WeaponManager : MonoBehaviour
         bulletObj.transform.up = fireDir.normalized;
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
-        bullet.Init(fireDir);
+        bullet.Init(fireDir, StatManager.instance.attakStats.projectileCount, StatManager.instance.attakStats.projectileSpeed, StatManager.instance.attakStats.attackRange); ;
     }
 }

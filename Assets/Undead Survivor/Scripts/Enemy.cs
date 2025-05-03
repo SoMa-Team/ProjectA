@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-        TakeDamage(StatManager.Instance.attakStats.attackDamage, StatManager.Instance.attakStats.armorPenetration);
+        TakeDamage(StatManager.instance.attakStats.attackDamage, StatManager.instance.attakStats.armorPenetration);
     }
 
     private void TakeDamage(float attackDamage, float armorPenetration)

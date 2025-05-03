@@ -26,8 +26,9 @@ public class Player : MonoBehaviour
     }
 
     void FixedUpdate()
-    { 
-        Vector2 nextVec = inputVec * StatManager.Instance.UtilityStats.moveSpeed * Time.fixedDeltaTime;
+    {
+        Debug.Log(StatManager.instance.utilityStats.moveSpeed);
+        Vector2 nextVec = inputVec * StatManager.instance.utilityStats.moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 

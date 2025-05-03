@@ -13,11 +13,11 @@ public class Bullet : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(Vector2 dir)
+    public void Init(Vector2 dir, int projectileCount, float projectileSpeed, float attackRange)
     {
-        leftPenetration = StatManager.instance.attakStats.projectileCount;
-        speed = StatManager.instance.attakStats.projectileSpeed;
-        range = StatManager.instance.attakStats.attackRange;
+        leftPenetration = projectileCount;
+        speed = projectileSpeed;
+        range = attackRange;
 
         startPos = rigid.position;
 

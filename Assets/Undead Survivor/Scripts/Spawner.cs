@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if(timer > SpawnConfig.instance.baseSpawnInterval / StatManager.Instance.UtilityStats.spawnQuantityMultiplier)
+        if(timer > SpawnConfig.instance.baseSpawnInterval / StatManager.instance.utilityStats.spawnQuantityMultiplier)
         {
             timer = 0f;
             Spawn();
