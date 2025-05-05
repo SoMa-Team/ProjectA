@@ -1,22 +1,8 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
     public Vector2 inputVec;
-
-    Rigidbody2D rigid;
-    SpriteRenderer spriter;
-    Animator animator;
-
-    public float curDamage;
-    void Awake()
-    {
-        rigid = GetComponent<Rigidbody2D>();
-        spriter = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-
-        curDamage = 0;
-    }
 
     void Update()
     {
@@ -27,8 +13,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(StatManager.instance.utilityStats.moveSpeed);
-        Vector2 nextVec = inputVec * StatManager.instance.utilityStats.moveSpeed * Time.fixedDeltaTime;
+        Vector2 nextVec = inputVec * statManager.utilityStats.moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 

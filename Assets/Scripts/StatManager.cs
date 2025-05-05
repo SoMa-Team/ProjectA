@@ -53,7 +53,7 @@ public class UtilityStats
     public float spawnQuantityMultiplier;
     public float spawnQualityMultiplier;
 }
-
+[System.Serializable]
 public class StatManager
 {
     public AttackStats attakStats;

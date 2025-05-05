@@ -1,32 +1,25 @@
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
-    public float speed;
-    public float maxHealth;
-    float healthPoint;
-    public float defense;
     public Rigidbody2D target;
+    public float knockbackSize = 3;
     public RuntimeAnimatorController[] controllers;
 
-    bool isLive = true;
+    private WaitForFixedUpdate wait = new WaitForFixedUpdate();
+    private bool isLive;
 
-    Rigidbody2D rigid;
-    Collider2D coll;
-    SpriteRenderer spriter;
-    Animator animator;
-    WaitForFixedUpdate wait;
-    
-    public float knockbackSize = 3;
-    private void Awake()
+    private void OnEnable()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        coll = GetComponent<Collider2D>();
-        spriter = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-        wait = new WaitForFixedUpdate();
-        healthPoint = maxHealth;
+        isLive = true;
+        currentHealth = statManager.vitalStats.maxHealth;
+
+        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        coll.enabled = true;
+        rigid.simulated = true;
+        spriter.sortingOrder = 2;
+        animator.SetBool("Dead", false);
     }
 
     private void FixedUpdate()
@@ -37,7 +30,7 @@ public class Enemy : MonoBehaviour
         }
 
         Vector2 dirVec = target.position - rigid.position;
-        Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = dirVec.normalized * statManager.utilityStats.moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position+nextVec);
         rigid.linearVelocity = Vector2.zero;
     }
@@ -52,49 +45,23 @@ public class Enemy : MonoBehaviour
         spriter.flipX = target.position.x < rigid.position.x;
     }
 
-    private void OnEnable()
-    {
-        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
-        isLive = true;
-        coll.enabled = true;
-        rigid.simulated = true;
-        spriter.sortingOrder = 2;
-        animator.SetBool("Dead", false);
-        healthPoint = maxHealth;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (collision.CompareTag("Bullet"))
         {
-            return;
+            var attackStats = GameManager.instance.player.statManager.attakStats;
+            TakeDamage(attackStats.attackDamage, attackStats.armorPenetration);
         }
-        TakeDamage(StatManager.instance.attakStats.attackDamage, StatManager.instance.attakStats.armorPenetration);
     }
 
-    private void TakeDamage(float attackDamage, float armorPenetration)
+
+    protected override void OnHit()
     {
-        float effectiveDefense = Mathf.Max(0, defense * (100 - armorPenetration) / 100);
-        float damage = attackDamage * 100 / (100 + effectiveDefense);
-        healthPoint -= damage;
+        base.OnHit();
         StartCoroutine(KnockBack());
-
-        if(healthPoint > 0)
-        {
-            animator.SetTrigger("Hit");
-        }
-        else
-        {
-            isLive = false;
-            coll.enabled = false;
-            rigid.simulated = false;
-            spriter.sortingOrder = 1;
-            animator.SetBool("Dead", true);
-            GameManager.instance.killCount++;
-        }
     }
 
-    IEnumerator KnockBack()
+    private IEnumerator KnockBack()
     {
         yield return wait;
         Vector3 playerPos = GameManager.instance.player.transform.position;
@@ -102,8 +69,11 @@ public class Enemy : MonoBehaviour
         rigid.AddForce(dirVec.normalized * knockbackSize * 3, ForceMode2D.Impulse);
     }
 
-    void Dead()
+    protected override void Die()
     {
-        gameObject.SetActive(false);
+        isLive = false;
+        spriter.sortingOrder = 1;
+        GameManager.instance.killCount++;
+        base.Die();
     }
 }

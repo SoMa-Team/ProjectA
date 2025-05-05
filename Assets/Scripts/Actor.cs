@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-    [Header("Stats")]
     public StatManager statManager;
     protected float currentHealth;
 
