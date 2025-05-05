@@ -47,15 +47,6 @@ public class Enemy : Actor
         spriter.flipX = target.position.x < rigid.position.x;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Bullet"))
-        {
-            var attackStats = GameManager.instance.player.statManager.attakStats;
-            TakeDamage(attackStats.attackDamage, attackStats.armorPenetration);
-        }
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!isLive) return;
@@ -90,9 +81,14 @@ public class Enemy : Actor
 
     protected override void Die()
     {
+        rigid.simulated = false;
         spriter.sortingOrder = 1;
         GameManager.instance.killCount++;
         base.Die();
+    }
+
+    public void MakeUnable()
+    {
         gameObject.SetActive(false);
     }
 }

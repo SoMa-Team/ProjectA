@@ -27,7 +27,10 @@ public class Actor : MonoBehaviour
         float defense = statManager.defenseStats.defense;
         float effectiveDefense = Mathf.Max(0, defense * (100 - armorPenetration) / 100);
         float damage = rawDamage * 100 / (100 + effectiveDefense);
+        Debug.Log(damage);
+        Debug.Log($"before : {currentHealth}");
         currentHealth -= damage;
+        Debug.Log($"after : {currentHealth}");
 
         if (currentHealth <= 0)
             Die();
@@ -44,7 +47,6 @@ public class Actor : MonoBehaviour
     {
         currentHealth = 0;
         coll.enabled = false;
-        rigid.simulated = false;
         isLive = false;
         animator?.SetBool("Dead", true);
     }

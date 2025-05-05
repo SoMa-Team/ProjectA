@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Bullet : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class Bullet : MonoBehaviour
         range = attackRange;
 
         startPos = rigid.position;
-        rigid.linearVelocity = dir.normalized * speed;
+        rigid.linearVelocity = dir.normalized * speed;;
     }
 
     private void FixedUpdate()
@@ -43,6 +44,7 @@ public class Bullet : MonoBehaviour
 
         if (hitActor == null || hitActor == owner)
             return;
+
         hitActor.TakeDamage(owner.statManager.attakStats.attackDamage, owner.statManager.attakStats.armorPenetration);
         
         leftPenetration--;
