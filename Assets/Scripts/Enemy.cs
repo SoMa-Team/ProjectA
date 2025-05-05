@@ -10,6 +10,9 @@ public class Enemy : Actor
     private WaitForFixedUpdate wait = new WaitForFixedUpdate();
     private bool isLive;
 
+    private float lastDamageTime = -Mathf.Infinity;
+    private float contactDamageCooldown = 0.5f;
+
     private void OnEnable()
     {
         isLive = true;
@@ -51,6 +54,23 @@ public class Enemy : Actor
         {
             var attackStats = GameManager.instance.player.statManager.attakStats;
             TakeDamage(attackStats.attackDamage, attackStats.armorPenetration);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!isLive) return;
+
+        if (collision.CompareTag("Player"))
+        {
+            Player player = collision.GetComponent<Player>();
+            if (player != null && Time.time - lastDamageTime > contactDamageCooldown)
+            {
+                lastDamageTime = Time.time;
+
+                // Enemy가 Player에게 데미지를 줌
+                player.TakeDamage(statManager.attakStats.attackDamage, statManager.attakStats.armorPenetration);
+            }
         }
     }
 
