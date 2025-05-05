@@ -54,16 +54,10 @@ public class UtilityStats
     public float spawnQualityMultiplier;
 }
 
-public class StatManager : MonoBehaviour
+public class StatManager
 {
     public AttackStats attakStats;
     public DefenseStats defenseStats;
     public VitalStats vitalStats;
     public UtilityStats utilityStats;
-    public static StatManager instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
 }
