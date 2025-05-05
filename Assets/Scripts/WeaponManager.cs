@@ -3,19 +3,23 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     public int prefabId;
-
-    float timer;
+    private float timer;
     private Camera mainCamera;
+
+    private Actor owner;
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        owner = GetComponentInParent<Actor>();
     }
 
     private void Update()
     {
+        if (owner == null || owner.statManager == null) return;
+
         timer += Time.deltaTime;
-        if(timer > 1 / StatManager.instance.attakStats.attackSpeed)
+        if (timer > 1f / owner.statManager.attakStats.attackSpeed)
         {
             timer = 0f;
             Fire();
@@ -26,13 +30,14 @@ public class WeaponManager : MonoBehaviour
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0f;
 
-        Vector3 fireDir = mouseWorldPos - transform.position;
+        Vector3 fireDir = mouseWorldPos - owner.transform.position;
 
         GameObject bulletObj = GameManager.instance.poolManager.Get(prefabId);
-        bulletObj.transform.position = transform.position;
+        bulletObj.transform.position = owner.transform.position;
         bulletObj.transform.up = fireDir.normalized;
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
-        bullet.Init(fireDir, StatManager.instance.attakStats.projectileCount, StatManager.instance.attakStats.projectileSpeed, StatManager.instance.attakStats.attackRange); ;
+        var stats = owner.statManager.attakStats;
+        bullet.Init(fireDir, stats.projectileCount, stats.projectileSpeed, stats.attackRange, owner);
     }
 }

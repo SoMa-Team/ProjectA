@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    [Header("Stats")]
     public StatManager statManager;
-    protected float currentHealth;
+    public float currentHealth;
 
     protected Animator animator;
     protected Rigidbody2D rigid;

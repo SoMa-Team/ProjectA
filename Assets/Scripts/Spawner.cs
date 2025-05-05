@@ -2,29 +2,37 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Transform[] spawnPoint;
+    [Header("Spawn Points")]
+    public Transform[] spawnPoints;
 
-    float timer;
+    [Header("Spawn Settings")]
+    public int enemyPrefabIndex;
+    public float baseInterval;
+
+    private float timer=0;
 
     private void Awake()
     {
-        spawnPoint = GetComponentsInChildren<Transform>();
+        spawnPoints = GetComponentsInChildren<Transform>();
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (GameManager.instance.player == null || GameManager.instance.player.statManager == null)
+            return;
 
-        if(timer > SpawnConfig.instance.baseSpawnInterval / StatManager.instance.utilityStats.spawnQuantityMultiplier)
+        float multiplier = GameManager.instance.player.statManager.utilityStats.spawnQuantityMultiplier;
+
+        timer += Time.deltaTime;
+        if (timer > baseInterval / multiplier)
         {
             timer = 0f;
             Spawn();
         }
     }
-
-    void Spawn()
+    private void Spawn()
     {
-        GameObject enemy = GameManager.instance.poolManager.Get(0);
-        enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+        GameObject enemy = GameManager.instance.poolManager.Get(enemyPrefabIndex);
+        enemy.transform.position = spawnPoints[Random.Range(1, spawnPoints.Length)].position;
     }
 }

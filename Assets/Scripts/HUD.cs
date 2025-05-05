@@ -9,8 +9,8 @@ public class HUD : MonoBehaviour
     public enum InfoType {Time, Health, Kill};
     public InfoType type;
 
-    Slider mySlider;
-    Text myText;
+    private Slider mySlider;
+    private Text myText;
 
     private void Awake()
     {
@@ -20,21 +20,29 @@ public class HUD : MonoBehaviour
 
     private void LateUpdate()
     {
+        var player = GameManager.instance.player;
+
         switch (type)
         {
             case InfoType.Time:
                 int min = Mathf.FloorToInt(GameManager.instance.gameTime / 60);
                 int sec = Mathf.FloorToInt(GameManager.instance.gameTime % 60);
-                myText.text = string.Format("{0:D2}:{1:D2}", min, sec);
+                if (myText != null)
+                    myText.text = string.Format("{0:D2}:{1:D2}", min, sec);
                 break;
 
             case InfoType.Health:
-                float curHp = StatManager.instance.vitalStats.maxHealth - GameManager.instance.player.curDamage;
-                mySlider.value = curHp/StatManager.instance.vitalStats.maxHealth;
+                if (player != null && player.statManager != null && mySlider != null)
+                {
+                    float maxHp = player.statManager.vitalStats.maxHealth;
+                    float curHp = player.currentHealth;
+                    mySlider.value = Mathf.Clamp01(curHp / maxHp);
+                }
                 break;
 
             case InfoType.Kill:
-                myText.text = string.Format("{0:F0}", GameManager.instance.killCount);
+                if (myText != null)
+                    myText.text = GameManager.instance.killCount.ToString("F0");
                 break;
         }
     }
