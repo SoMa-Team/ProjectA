@@ -16,7 +16,7 @@ public class WeaponManager : MonoBehaviour
 
     private void Update()
     {
-        if (owner == null || owner.statManager == null) return;
+        if (owner == null || owner.statManager == null || !owner.isLive) return;
 
         timer += Time.deltaTime;
         if (timer > 1f / owner.statManager.attakStats.attackSpeed)

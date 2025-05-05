@@ -5,6 +5,7 @@ public class Actor : MonoBehaviour
     [Header("Stats")]
     public StatManager statManager;
     public float currentHealth;
+    public bool isLive;
 
     protected Animator animator;
     protected Rigidbody2D rigid;
@@ -19,6 +20,7 @@ public class Actor : MonoBehaviour
         animator = GetComponent<Animator>();
 
         currentHealth = statManager.vitalStats.maxHealth;
+        isLive = true;
     }
     public virtual void TakeDamage(float rawDamage, float armorPenetration)
     {
@@ -43,7 +45,7 @@ public class Actor : MonoBehaviour
         currentHealth = 0;
         coll.enabled = false;
         rigid.simulated = false;
+        isLive = false;
         animator?.SetBool("Dead", true);
-        gameObject.SetActive(false);
     }
 }

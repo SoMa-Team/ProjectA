@@ -8,7 +8,6 @@ public class Enemy : Actor
     public RuntimeAnimatorController[] controllers;
 
     private WaitForFixedUpdate wait = new WaitForFixedUpdate();
-    private bool isLive;
 
     private float lastDamageTime = -Mathf.Infinity;
     private float contactDamageCooldown = 0.5f;
@@ -91,9 +90,9 @@ public class Enemy : Actor
 
     protected override void Die()
     {
-        isLive = false;
         spriter.sortingOrder = 1;
         GameManager.instance.killCount++;
         base.Die();
+        gameObject.SetActive(false);
     }
 }
