@@ -95,7 +95,7 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    public void ApplyCardEffects(Card card)
+    public void ApplyCardEffects(CardData card)
     {
         // apply each card effect to the stats
         attackStats.attackDamage += card.attackDamageChange;
